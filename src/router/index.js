@@ -23,7 +23,8 @@ const routes = [
 		component: () => import("../views/Membres.vue"),
 	},
 	{
-		path: "/membre",
+		path: "/membre/:membre_id",
+		name: "Membre",
 		component: () => import("../views/Membre.vue"),
 	},
 	{

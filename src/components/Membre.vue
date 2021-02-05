@@ -14,6 +14,7 @@
 				title="Profil"
 				>🕵️‍♂️</router-link
 			>
+
 			&nbsp;
 			<button
 				:disabled="membreConnecte"

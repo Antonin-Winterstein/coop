@@ -57,7 +57,7 @@ export default {
 		padding-bottom: 0.5em;
 		margin-bottom: 0.5em;
 		display: flex;
-		div {
+		div:not(.conversation) {
 			flex: 1;
 		}
 		time {
