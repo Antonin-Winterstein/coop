@@ -4,17 +4,27 @@
 			<router-link to="/membres">Membres</router-link> > {{ membre.fullname }}
 		</div>
 
-		<h1>{{ membre.fullname }}</h1>
-		<ul>
-			<li>Email: {{ membre.email }}</li>
-			<li>Membre inscrit depuis le {{ membre.depuis }}</li>
-		</ul>
+		<main>
+			<section>
+				<h1>{{ membre.fullname }}</h1>
+				<img class="avatar" :src="avatar" />
+				<h1>Informations sur l'utilisateur :</h1>
+				<ul>
+					<li>Email: {{ membre.email }}</li>
+					<li>Membre inscrit depuis le {{ membre.depuis }}</li>
+				</ul>
+			</section>
+		</main>
 
 		<h2>Messages</h2>
-		<div v-if="loading">Chargement des messages, veuillez patienter...</div>
-		<template v-else v-for="message in messagesTries">
-			<Message :message="message"></Message>
-		</template>
+		<div class="loading" v-if="loading">
+			Chargement des messages, veuillez patienter...
+		</div>
+		<div v-else class="messages">
+			<template v-for="message in messagesTries">
+				<Message :message="message"></Message>
+			</template>
+		</div>
 	</div>
 </template>
 
@@ -31,6 +41,13 @@ export default {
 		};
 	},
 	computed: {
+		avatar() {
+			return (
+				"https://gravatar.com/avatar/" +
+				md5(this.membre.email) +
+				"?s=400&d=identicon&r=pg"
+			);
+		},
 		messagesTries() {
 			function compare(a, b) {
 				if (a.created_at < b.created_at) {
@@ -77,3 +94,31 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+h2 {
+	text-align: center;
+}
+.avatar {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.messages {
+	padding-bottom: 3em;
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.loading {
+	text-align: center;
+}
+
+li {
+	list-style: none;
+	text-align: center;
+}
+</style>

@@ -40,6 +40,7 @@ export default {
 				.then((response) => {
 					this.$store.commit("setMembre", response.data.member);
 					this.$store.commit("setToken", response.data.token);
+					this.$bus.$emit("charger-conversations");
 					this.$router.push("/");
 				})
 				.catch((error) => {
