@@ -55,8 +55,8 @@
 		</section>
 
 		<div class="actions" v-if="m.member_id == this.$store.state.membre.id">
-			<button class="button-clear" @click="activerEditer">Modifier</button>
-			<button class="button-clear" @click="supprimerMessage">Supprimer</button>
+			<button class="button-clear" @click="activerEditer">✏️ Modifier mon message</button>
+			<button class="button-clear" @click="supprimerMessage">🗑️ Supprimer mon message</button>
 		</div>
 	</div>
 </template>
@@ -150,6 +150,7 @@ export default {
 	color: #555;
 	section {
 		flex: 1;
+		overflow: hidden;
 	}
 	.actions {
 		position: absolute;
@@ -186,8 +187,9 @@ export default {
 			font-size: 90%;
 		}
 	}
-	.contenu {
-		// margin-bottom: 1em;
+	div {
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 </style>

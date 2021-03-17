@@ -39,7 +39,7 @@ export default {
 			.get("ping")
 			.then((reponse) => {
 				this.apiOk = true;
-				console.log("L'api est fonctionnelle !");
+				console.log("L'api est fonctionnelle ! 😍");
 
 				this.chargerMembres();
 				this.$bus.$on("charger-membres", this.chargerMembres);

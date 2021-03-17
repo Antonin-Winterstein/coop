@@ -18,7 +18,7 @@
 
 		<h2>Messages</h2>
 		<div class="loading" v-if="loading">
-			Chargement des messages, veuillez patienter...
+			Chargement des messages, veuillez patienter... Un café en attendant ? ☕
 		</div>
 		<div v-else class="messages">
 			<template v-for="message in messagesTries">

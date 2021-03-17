@@ -9,8 +9,8 @@ import milligram from "milligram";
 
 window.md5 = md5;
 window.api = axios.create({
-	baseURL: "https://tools.sopress.net/iut/coop/api/",
-	headers: { Authorization: "eac043db4c850c78b989d79e44f5d3e98c677ba9" },
+	baseURL: "https://allweb.fun/coop/api/",
+	headers: { Authorization: "00b61242d0e94b3d21c84ce9825714ec60ba2350" },
 });
 
 Vue.prototype.$bus = new Vue();

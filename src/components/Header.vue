@@ -42,6 +42,7 @@ body {
 	position: relative;
 	top: 50px;
 	left: 50px;
+	width: fit-content;
 
 	z-index: 1;
 

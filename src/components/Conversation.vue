@@ -8,14 +8,27 @@
 			<router-link
 				:to="{ name: 'Conversation', params: { id: conversation.id } }"
 				class="button"
-				>👁️</router-link
+				>Voir 👁️</router-link
 			>
+			<button class="button button-clear" @click="effacerConversation">
+				<span style="font-size: 1.5em">🗑️</span> Effacer la conversation
+			</button>
 		</div>
 	</div>
 </template>
 <script>
 export default {
 	props: ["conversation"],
+	methods: {
+		effacerConversation() {
+			if(confirm('Voulez-vous vraiment supprimer cette conversation ?')); {
+				api.delete('channels/'+this.conversation.id).then(() => {
+					this.$bus.$emit('charger-conversations')
+					this.$router.push('/');
+				})
+			}
+		},
+	}
 };
 </script>
 

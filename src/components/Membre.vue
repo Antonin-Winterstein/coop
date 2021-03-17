@@ -12,7 +12,7 @@
 				}"
 				class="button"
 				title="Profil"
-				>🕵️‍♂️</router-link
+				>Voir le profil 🕵️‍♂️</router-link
 			>
 
 			&nbsp;
@@ -22,7 +22,7 @@
 				@click="effacerMembre(membre)"
 				title="Effacer"
 			>
-				🗑
+				Effacer le profil 🗑️
 			</button>
 		</div>
 	</div>

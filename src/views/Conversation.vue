@@ -2,12 +2,15 @@
 	<div class="container" v-if="conversation">
 		<div class="actions">
 			<button class="button button-clear" @click="editerConversation">
-				Modifier
+				<span style="font-size: 1.5em">✏️</span> Modifier la conversation
+			</button>
+			<button class="button button-clear" @click="effacerConversation">
+				<span style="font-size: 1.5em">🗑️</span> Effacer la conversation
 			</button>
 			<button class="button button-clear" @click="chargerMessages">
-				<big>⟳</big> Recharger les messages !
+				<span style="font-size: 1.5em">🔄</span> Recharger les messages
 			</button>
-		</div>
+		</div> 
 
 		<form
 			class="modifierConversation"
@@ -47,8 +50,8 @@
 			<h1>{{ c.topic }}</h1>
 			<h3>Labels : {{ c.label }}</h3>
 		</template>
-		<div class="loading" v-if="messages === false">
-			Chargement des messages...
+		<div class="loading" v-if="messages===false">
+			Chargement des messages, veuillez patienter... Un café en attendant ? ☕
 		</div>
 		<div v-else class="messages">
 			<template v-for="message in messages">
@@ -85,7 +88,7 @@ export default {
 			c: { topic: "", label: "" },
 			conversation: false,
 			message: "",
-			messages: [],
+			messages: false,
 		};
 	},
 	mounted() {
@@ -98,6 +101,14 @@ export default {
 		}
 	},
 	methods: {
+		effacerConversation() {
+			if(confirm('Voulez-vous vraiment supprimer cette conversation ?')); {
+				api.delete('channels/'+this.c.id).then(() => {
+					this.$bus.$emit('charger-conversations')
+					this.$router.push('/');
+				})
+			}
+		},
 		clonerConversation() {
 			this.c.id = this.conversation.id;
 			this.c.topic = this.conversation.topic;
@@ -120,8 +131,11 @@ export default {
 			this.clonerConversation();
 			setTimeout(() => this.$refs["topic"].focus(), 500);
 		},
-		chargerMessages() {
-			this.messages = false;
+		chargerMessages(vider=false) {
+			if(vider) { 
+				this.messages = false;
+			}
+			
 			api.get("channels/" + this.c.id + "/posts").then((response) => {
 				let messages = response.data.reverse();
 				setTimeout(() => (this.messages = messages), 1000);
@@ -154,7 +168,7 @@ h3 {
 .actions {
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: -7%;
 }
 .modifierConversation {
 	margin-top: 5vh;
@@ -166,6 +180,7 @@ h3 {
 	padding-left: 2rem;
 	padding-right: 2rem;
 }
+
 form.posterMessage {
 	background: white;
 	position: fixed;
