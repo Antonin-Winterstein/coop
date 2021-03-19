@@ -25,10 +25,16 @@
 		<div class="loading" v-if="loading">
 			Chargement des messages, veuillez patienter... Un café en attendant ? ☕
 		</div>
-		<div v-else class="messages">
-			<template v-for="message in messagesTries">
-				<Message :message="message"></Message>
+
+		<div class="messages" v-else>
+			<template v-if="messagesTries.length">
+				<template v-for="message in messagesTries">
+					<Message :message="message" :key="message.id"></Message>
+				</template>
 			</template>
+			<div v-else style="text-align: center;">
+				<b><i>Aucun message n'a été posté par ce membre pour le moment.</i></b>
+			</div>
 		</div>
 	</div>
 </template>
