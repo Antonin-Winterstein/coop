@@ -26,7 +26,7 @@
 <script>
 export default {
 	methods: {
-		// Se déconnecter de l'appli en enlevant le token
+		// Se déconnecter de l'appli en enlevant le token, retour automatique à la page de connexion
 		seDeconnecter() {
 			this.$store.commit("seDeconnecter");
 			this.$router.push("/se-connecter");
