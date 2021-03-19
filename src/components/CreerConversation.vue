@@ -23,12 +23,16 @@
 							placeholder="Quels sont les labels ? 😮"
 						/>
 
-						<button>Créer la conversation</button>
-						<button
-							type="button"
-							@click="masquerFormulaire"
-							class="button button-clear"
-						></button>
+						<div class="test">
+							<button>Créer la conversation</button>
+							<button
+								type="button"
+								@click="masquerFormulaire"
+								class="button button-clear"
+							>
+								Annuler
+							</button>
+						</div>
 					</fieldset>
 				</form>
 			</section>
@@ -50,6 +54,7 @@ export default {
 		this.$bus.$on("afficher-creer-conversation", this.afficherFormulaire);
 	},
 	methods: {
+		// Créer une conversation
 		creerConversation() {
 			api
 				.post("channels", {
@@ -61,11 +66,13 @@ export default {
 					this.$bus.$emit("charger-conversations");
 				});
 		},
+		// Afficher le formulaire de création de conversation
 		afficherFormulaire() {
 			this.topic = "";
 			this.label = "";
 			this.afficher = true;
 		},
+		// Masquer/annuler le formulaire de création de conversation
 		masquerFormulaire() {
 			this.afficher = false;
 		},
@@ -84,14 +91,14 @@ export default {
 	& > section {
 		.close {
 			position: absolute;
+			color: black;
+			background-color: unset;
+			border: unset;
 			top: 0;
 			right: 0;
-			width: 3em;
-			height: 3em;
-			margin: 0;
-			padding: 0;
-			border-radius: 50%;
-			line-height: 10%;
+			width: 2em;
+			height: 2em;
+			font-size: 20px;
 		}
 		position: absolute;
 		top: 50%;
@@ -99,7 +106,11 @@ export default {
 		transform: translate(-50%, -50%);
 		background: white;
 		padding: 1em;
-		border-radius: 1em;
+		border-radius: 1.5em;
 	}
+}
+
+.test {
+	text-align: center;
 }
 </style>

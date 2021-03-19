@@ -1,7 +1,7 @@
 <template>
-	<div v-if="chargementOk">
+	<div v-if="chargementBon">
 		<div class="container">
-			<template v-if="apiOk">
+			<template v-if="apiBon">
 				<Header v-if="this.$store.state.membre" />
 				<router-view />
 			</template>
@@ -28,8 +28,8 @@ export default {
 	},
 	data() {
 		return {
-			chargementOk: false,
-			apiOk: false,
+			chargementBon: false,
+			apiBon: false,
 		};
 	},
 	mounted() {
@@ -37,8 +37,8 @@ export default {
 
 		api
 			.get("ping")
-			.then((reponse) => {
-				this.apiOk = true;
+			.then((response) => {
+				this.apiBon = true;
 				console.log("L'api est fonctionnelle ! 😍");
 
 				this.chargerMembres();
@@ -47,7 +47,7 @@ export default {
 				this.chargerConversations();
 				this.$bus.$on("charger-conversations", this.chargerConversations);
 
-				// Vérification ed la connexion
+				// Vérification de la connexion
 				if (!this.$store.state.membre) {
 					if (
 						this.$route.path != "/se-connecter" &&
@@ -68,7 +68,7 @@ export default {
 				console.log("L'api ne marche pas ! 😭", error);
 			})
 			.finally(() => {
-				this.chargementOk = true;
+				this.chargementBon = true;
 			});
 	},
 	methods: {

@@ -1,6 +1,6 @@
 <template>
 	<div class="container" v-if="membre">
-		<div>
+		<div class="filAriane">
 			<router-link to="/membres">Membres</router-link> > {{ membre.fullname }}
 		</div>
 
@@ -10,8 +10,13 @@
 				<img class="avatar" :src="avatar" />
 				<h1>Informations sur l'utilisateur :</h1>
 				<ul>
-					<li>Email: {{ membre.email }}</li>
-					<li>Membre inscrit depuis le {{ membre.depuis }}</li>
+					<li>
+						<b>Email : </b>
+						<a :href="'mailto:' + membre.email">{{ membre.email }}</a>
+					</li>
+					<li>
+						Membre inscrit depuis le <b>{{ membre.depuis }}</b>
+					</li>
 				</ul>
 			</section>
 		</main>
@@ -41,6 +46,7 @@ export default {
 		};
 	},
 	computed: {
+		// Création du hash de l'url pour avoir un avatar unique à chaque fois
 		avatar() {
 			return (
 				"https://gravatar.com/avatar/" +
@@ -48,6 +54,7 @@ export default {
 				"?s=400&d=identicon&r=pg"
 			);
 		},
+		// Trier les 10 derniers messages du plus récent au plus ancien
 		messagesTries() {
 			function compare(a, b) {
 				if (a.created_at < b.created_at) {
@@ -75,17 +82,19 @@ export default {
 				options
 			);
 
-			let cpt = [];
+			let compter = [];
+			// Boucle sur toutes les conversations qu'on trouve dans le store
 			this.$store.state.conversations.forEach((conversation) => {
 				api.get("channels/" + conversation.id + "/posts").then((response) => {
+					// Boucle sur tous les messages de toutes les conversations
 					response.data.forEach((message) => {
 						if (message.member_id == this.membre.id) {
 							message.conversation = conversation;
 							this.messages.push(message);
 						}
 					});
-					cpt++;
-					if (this.$store.state.conversations.length == cpt) {
+					compter++;
+					if (this.$store.state.conversations.length == compter) {
 						setTimeout(() => (this.loading = false), 2000);
 					}
 				});
@@ -120,5 +129,10 @@ h2 {
 li {
 	list-style: none;
 	text-align: center;
+}
+
+.filAriane {
+	margin-left: 1em;
+	margin-top: -0.5em;
 }
 </style>

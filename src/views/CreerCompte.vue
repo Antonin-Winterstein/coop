@@ -36,8 +36,10 @@
 						required
 					/>
 
-					<button class="button">Créer mon compte</button>
-					<p><router-link to="se-connecter">Se connecter</router-link></p>
+					<button class="button boutonCreerCompte">Créer mon compte</button>
+					<router-link to="se-connecter"
+						>Déjà un compte ? Se connecter !</router-link
+					>
 				</fieldset>
 			</form>
 		</div>
@@ -51,9 +53,11 @@ export default {
 			fullname: "",
 			email: "",
 			password: "",
+			passwordCheck: "",
 		};
 	},
 	methods: {
+		// Création du compte
 		creerCompte() {
 			if (this.password != this.passwordCheck) {
 				alert(
@@ -84,3 +88,18 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.boutonCreerCompte {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+	~ a {
+		display: block;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+</style>

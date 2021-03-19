@@ -19,8 +19,8 @@
 						placeholder="Votre mot de passe"
 						required
 					/>
-					<button>Se connecter</button>
-					<p><router-link to="/creer-compte">Créer un compte</router-link></p>
+					<button class="button boutonCreerCompte">Se connecter</button>
+					<router-link to="/creer-compte">Créer un compte</router-link>
 				</fieldset>
 			</form>
 		</div>
@@ -41,6 +41,7 @@ export default {
 		}
 	},
 	methods: {
+		// Se connecter à l'application grâce au token
 		seConnecter() {
 			api
 				.post("members/signin", {
@@ -60,3 +61,18 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.boutonCreerCompte {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+	~ a {
+		display: block;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+</style>

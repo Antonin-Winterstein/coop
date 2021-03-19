@@ -1,10 +1,10 @@
 <template>
 	<div class="row">
 		<div class="column">
-			{{ membre.fullname }}
+			<p style="margin-bottom: 0">{{ membre.fullname }}</p>
 			<a :href="'mailto:' + membre.email">{{ membre.email }}</a>
 		</div>
-		<div class="column">
+		<div class="column" style="text-align: right;">
 			<router-link
 				:to="{
 					name: 'Membre',
@@ -32,11 +32,13 @@
 export default {
 	props: ["membre"],
 	computed: {
+		// Savoir qui est connecté pour pouvoir ne pas se supprimer soi-même
 		membreConnecte() {
 			return this.$store.state.membre.id == this.membre.id;
 		},
 	},
 	methods: {
+		// Supprimer un membre
 		effacerMembre() {
 			if (
 				confirm(
@@ -62,10 +64,8 @@ export default {
 <style scoped lang="scss">
 .row {
 	.column {
-		h3 {
-			margin: 0;
-		}
 		border-bottom: 1px solid #ccc;
+		padding-bottom: 10px;
 	}
 	margin-bottom: 1em;
 }

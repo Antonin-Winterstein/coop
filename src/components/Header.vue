@@ -9,6 +9,7 @@
 				<span></span>
 
 				<ul id="menu">
+					<h2 class="titreApplication"><b>COOP</b></h2>
 					<li>
 						<i>{{ $store.state.membre.fullname }}</i>
 					</li>
@@ -16,7 +17,6 @@
 					<router-link to="/"><li>Conversations</li></router-link>
 					<router-link to="/membres"><li>Membres</li></router-link>
 					<button @click="seDeconnecter">Se déconnecter</button>
-					<h2 class="titreApplication"><b>COOP</b></h2>
 				</ul>
 			</div>
 		</nav>
@@ -26,6 +26,7 @@
 <script>
 export default {
 	methods: {
+		// Se déconnecter de l'appli en enlevant le token
 		seDeconnecter() {
 			this.$store.commit("seDeconnecter");
 			this.$router.push("/se-connecter");

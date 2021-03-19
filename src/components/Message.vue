@@ -13,7 +13,7 @@
 							>{{ membre.fullname }}</router-link
 						></b
 					>
-					&dash; <time v-html="dateMessage"></time>
+					| <time v-html="dateMessage"></time>
 				</div>
 				<div class="conversation" v-if="m.conversation">
 					Message posté dans
@@ -54,9 +54,14 @@
 			<div v-else>{{ m.message }}</div>
 		</section>
 
+		<!-- Afficher les boutons seulement si c'est nous qui avons envoyé ce message -->
 		<div class="actions" v-if="m.member_id == this.$store.state.membre.id">
-			<button class="button-clear" @click="activerEditer">✏️ Modifier mon message</button>
-			<button class="button-clear" @click="supprimerMessage">🗑️ Supprimer mon message</button>
+			<button class="button-clear" @click="activerEditer">
+				✏️ Modifier mon message
+			</button>
+			<button class="button-clear" @click="supprimerMessage">
+				🗑️ Supprimer mon message
+			</button>
 		</div>
 	</div>
 </template>
@@ -75,11 +80,13 @@ export default {
 		this.m = this.message;
 	},
 	methods: {
+		// Activer la modification du message
 		activerEditer() {
 			this.editer = true;
 			this.messageContent = this.m.message;
 			setTimeout(() => this.$refs["editer"].focus(), 500);
 		},
+		// Modifier le message
 		editerMessage() {
 			api
 				.put(`channels/${this.m.channel_id}/posts/${this.m.id}`, {
@@ -90,6 +97,7 @@ export default {
 					this.editer = false;
 				});
 		},
+		// Supprimer le message
 		supprimerMessage() {
 			if (confirm("Voulez vous vraiment supprimer ce message ?")) {
 				api
@@ -101,6 +109,7 @@ export default {
 		},
 	},
 	computed: {
+		// Création du hash de l'url pour avoir un avatar unique à chaque fois
 		avatar() {
 			return (
 				"https://gravatar.com/avatar/" +
@@ -111,6 +120,7 @@ export default {
 		membre() {
 			return this.$store.getters.getMembre(this.m.member_id);
 		},
+		// Date de l'envoi du message et de sa modification si besoin
 		dateMessage() {
 			let options = {
 				weekday: "long",
@@ -118,19 +128,19 @@ export default {
 				month: "long",
 				day: "numeric",
 			};
-			let dc = new Date(this.m.created_at);
+			let dateMessageCree = new Date(this.m.created_at);
 			let dateMessage =
 				"Envoyé le " +
-				dc.toLocaleDateString("fr-FR", options) +
+				dateMessageCree.toLocaleDateString("fr-FR", options) +
 				" à " +
-				dc.toLocaleTimeString();
+				dateMessageCree.toLocaleTimeString();
 			if (this.m.created_at != this.m.modified_at) {
-				let dm = new Date(this.m.modified_at);
+				let dateMessageModifie = new Date(this.m.modified_at);
 				dateMessage +=
 					" | <small>Modifié le " +
-					dm.toLocaleDateString("fr-FR", options) +
+					dateMessageModifie.toLocaleDateString("fr-FR", options) +
 					" à " +
-					dm.toLocaleTimeString() +
+					dateMessageModifie.toLocaleTimeString() +
 					"</small>";
 			}
 			return dateMessage;
@@ -141,13 +151,14 @@ export default {
 
 <style lang="scss">
 .message {
-	position: relative;
 	display: flex;
+	position: relative;
 	background: #f0f0f0;
+	color: gray;
 	padding: 1em;
 	margin: 1em 0;
-	border-radius: 5px;
-	color: #555;
+	border-radius: 15px;
+
 	section {
 		flex: 1;
 		overflow: hidden;
@@ -157,7 +168,7 @@ export default {
 		bottom: 0;
 		right: 0;
 		opacity: 0;
-		transition: opacity 0.5s ease;
+		transition: opacity 0.5s ease-in;
 		button {
 			padding: 0;
 			margin: 0;
@@ -171,7 +182,6 @@ export default {
 	.avatar {
 		width: 32px;
 		height: 32px;
-		object-fit: cover;
 		margin-right: 1em;
 	}
 	header {
@@ -182,9 +192,6 @@ export default {
 		display: flex;
 		div:not(.conversation) {
 			flex: 1;
-		}
-		time {
-			font-size: 90%;
 		}
 	}
 	div {

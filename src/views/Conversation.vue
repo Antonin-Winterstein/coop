@@ -1,5 +1,8 @@
 <template>
 	<div class="container" v-if="conversation">
+		<div class="filAriane">
+			<router-link to="/">Conversations</router-link> > {{ c.topic }}
+		</div>
 		<div class="actions">
 			<button class="button button-clear" @click="editerConversation">
 				<span style="font-size: 1.5em">✏️</span> Modifier la conversation
@@ -103,6 +106,7 @@ export default {
 		}
 	},
 	methods: {
+		// Effacer la conversation
 		effacerConversation() {
 			if (
 				confirm(
@@ -120,11 +124,13 @@ export default {
 					});
 			}
 		},
+		// Constructeur
 		clonerConversation() {
 			this.c.id = this.conversation.id;
 			this.c.topic = this.conversation.topic;
 			this.c.label = this.conversation.label;
 		},
+		// Modifier la conversation (topic et labels via le formulaire)
 		modifierConversation() {
 			api.put("channels/" + this.c.id, this.c).then((response) => {
 				this.conversation = response.data;
@@ -133,15 +139,17 @@ export default {
 				this.$bus.$emit("charger-conversations");
 			});
 		},
+		// Annuler la modification de la conversation
 		annulerEditer() {
 			this.editer = false;
 			this.clonerConversation();
 		},
+		// Activer le formulaire pour modifier la conversation
 		editerConversation() {
 			this.editer = true;
 			this.clonerConversation();
-			setTimeout(() => this.$refs["topic"].focus(), 500);
 		},
+		// Recharger les messages
 		chargerMessages(vider = false) {
 			if (vider) {
 				this.messages = false;
@@ -152,6 +160,7 @@ export default {
 				setTimeout(() => (this.messages = messages), 1000);
 			});
 		},
+		// Envoyer un message dans la conversation
 		posterMessage() {
 			api
 				.post("channels/" + this.conversation.id + "/posts", {
@@ -184,7 +193,6 @@ h3 {
 	text-align: right;
 }
 .modifierConversation {
-	// margin-top: 5vh;
 	margin-left: 1em;
 	margin-right: 1em;
 }
@@ -195,7 +203,6 @@ h3 {
 }
 
 form.posterMessage {
-	background: white;
 	position: fixed;
 	bottom: 0;
 	left: 1em;
@@ -210,5 +217,9 @@ form.posterMessage {
 	.envoyer {
 		margin-right: 1rem;
 	}
+}
+.filAriane {
+	margin-left: 1em;
+	margin-top: -0.5em;
 }
 </style>

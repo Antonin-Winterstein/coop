@@ -2,13 +2,13 @@
 	<div class="row">
 		<div class="column">
 			<h3>{{ conversation.topic }}</h3>
-			{{ conversation.label }}
+			<p>{{ conversation.label }}</p>
 		</div>
-		<div class="column column-25 actions">
+		<div class="column actions">
 			<router-link
 				:to="{ name: 'Conversation', params: { id: conversation.id } }"
 				class="button"
-				>Voir 👁️</router-link
+				>👁️ Voir la conversation</router-link
 			>
 			<button class="button button-clear" @click="effacerConversation">
 				<span style="font-size: 1.5em">🗑️</span> Effacer la conversation
@@ -20,6 +20,7 @@
 export default {
 	props: ["conversation"],
 	methods: {
+		// Effacer la conversation
 		effacerConversation() {
 			if (
 				confirm(
@@ -30,7 +31,6 @@ export default {
 					.delete("channels/" + this.conversation.id)
 					.then((response) => {
 						this.$bus.$emit("charger-conversations");
-						this.$router.push("/");
 					})
 					.catch((error) => {
 						console.log(error.response.data);
