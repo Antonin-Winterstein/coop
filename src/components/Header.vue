@@ -9,10 +9,14 @@
 				<span></span>
 
 				<ul id="menu">
-					<router-link to="/"><li>COOP</li></router-link>
+					<li>
+						<i>{{ $store.state.membre.fullname }}</i>
+					</li>
+
 					<router-link to="/"><li>Conversations</li></router-link>
 					<router-link to="/membres"><li>Membres</li></router-link>
 					<button @click="seDeconnecter">Se déconnecter</button>
+					<h2 class="titreApplication"><b>COOP</b></h2>
 				</ul>
 			</div>
 		</nav>
@@ -31,6 +35,12 @@ export default {
 </script>
 
 <style lang="scss">
+.titreApplication {
+	position: absolute;
+	top: 59px;
+	left: 38%;
+}
+
 body {
 	margin: 0;
 	padding: 0;

@@ -12,7 +12,7 @@
 							v-model="topic"
 							required
 							type="text"
-							placeholder="De quoi voulez-vous discuter ?"
+							placeholder="Quel est le sujet ? 🙃"
 						/>
 
 						<label>Tags</label>
@@ -20,7 +20,7 @@
 							v-model="label"
 							required
 							type="text"
-							placeholder="Quels sont les concepts abordés ?"
+							placeholder="Quels sont les labels ? 😮"
 						/>
 
 						<button>Créer la conversation</button>

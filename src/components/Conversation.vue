@@ -21,14 +21,23 @@ export default {
 	props: ["conversation"],
 	methods: {
 		effacerConversation() {
-			if(confirm('Voulez-vous vraiment supprimer cette conversation ?')); {
-				api.delete('channels/'+this.conversation.id).then(() => {
-					this.$bus.$emit('charger-conversations')
-					this.$router.push('/');
-				})
+			if (
+				confirm(
+					"Voulez-vous vraiment supprimer cette conversation ? Cette action est irréversible. 🤐"
+				)
+			) {
+				api
+					.delete("channels/" + this.conversation.id)
+					.then((response) => {
+						this.$bus.$emit("charger-conversations");
+						this.$router.push("/");
+					})
+					.catch((error) => {
+						console.log(error.response.data);
+					});
 			}
 		},
-	}
+	},
 };
 </script>
 

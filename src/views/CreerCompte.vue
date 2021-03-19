@@ -5,18 +5,37 @@
 			<form @submit.prevent="creerCompte">
 				<fieldset>
 					<label>Nom et prénom</label>
-					<input v-model="fullname" type="text" placeholder="Nom" required />
+					<input
+						v-model="fullname"
+						type="text"
+						placeholder="Entrez votre nom et prénom"
+						required
+					/>
 
 					<label>Adresse mail</label>
-					<input v-model="email" type="email" placeholder="Email" required />
+					<input
+						v-model="email"
+						type="email"
+						placeholder="Entrez votre adresse mail"
+						required
+					/>
 
 					<label>Mot de passe</label>
 					<input
 						v-model="password"
 						type="password"
-						placeholder="Mot de passe"
+						placeholder="Entrez votre mot de passe"
 						required
 					/>
+
+					<label>Vérification du mot de passe</label>
+					<input
+						v-model="passwordCheck"
+						type="password"
+						placeholder="Entrez à nouveau votre mot de passe pour vérification"
+						required
+					/>
+
 					<button class="button">Créer mon compte</button>
 					<p><router-link to="se-connecter">Se connecter</router-link></p>
 				</fieldset>
@@ -29,27 +48,38 @@
 export default {
 	data() {
 		return {
-			fullname: "TEST " + Math.random(),
-			email: "test" + Math.random() + "@test.fr",
-			password: "test",
+			fullname: "",
+			email: "",
+			password: "",
 		};
 	},
 	methods: {
 		creerCompte() {
-			// api a été créé dans le index.js
-			api
-				.post("members", {
-					fullname: this.fullname,
-					email: this.email,
-					password: this.password,
-				})
-				.then((response) => {
-					alert("Votre compte a été créé, vous pouvez vous connecter à Coop !");
-					this.$router.push("/se-connecter");
-				})
-				.catch((error) => {
-					alert(error.response.data.message);
-				});
+			if (this.password != this.passwordCheck) {
+				alert(
+					"Les deux mots de passes doivent être identiques ! Veuillez réessayer s'il vous plaît. 😅"
+				);
+			} else {
+				// api a été créé dans le index.js
+				api
+					.post("members", {
+						fullname: this.fullname,
+						email: this.email,
+						password: this.password,
+					})
+					.then((response) => {
+						alert(
+							"Votre compte a bien été créé, vous pouvez vous connecter à Coop ! 😎"
+						);
+						this.$router.push({
+							path: "/se-connecter",
+							query: { email: this.email },
+						});
+					})
+					.catch((error) => {
+						alert(error.response.data.message);
+					});
+			}
 		},
 	},
 };

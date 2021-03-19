@@ -5,13 +5,18 @@
 			<form @submit.prevent="seConnecter">
 				<fieldset>
 					<label>Adresse mail</label>
-					<input v-model="email" type="email" placeholder="Email" required />
+					<input
+						v-model="email"
+						type="email"
+						placeholder="Votre adresse mail"
+						required
+					/>
 
 					<label>Mot de passe</label>
 					<input
 						v-model="password"
 						type="password"
-						placeholder="Mot de passe"
+						placeholder="Votre mot de passe"
 						required
 					/>
 					<button>Se connecter</button>
@@ -26,9 +31,14 @@
 export default {
 	data() {
 		return {
-			email: "test@test.fr",
-			password: "test",
+			email: "",
+			password: "",
 		};
+	},
+	mounted() {
+		if (this.$route.query.email) {
+			this.email = this.$route.query.email;
+		}
 	},
 	methods: {
 		seConnecter() {

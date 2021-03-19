@@ -2,7 +2,7 @@
 	<div v-if="chargementOk">
 		<div class="container">
 			<template v-if="apiOk">
-				<Header />
+				<Header v-if="this.$store.state.membre" />
 				<router-view />
 			</template>
 			<template v-else>

@@ -10,7 +10,7 @@
 			<button class="button button-clear" @click="chargerMessages">
 				<span style="font-size: 1.5em">🔄</span> Recharger les messages
 			</button>
-		</div> 
+		</div>
 
 		<form
 			class="modifierConversation"
@@ -26,7 +26,7 @@
 					v-model="c.topic"
 					required
 					type="text"
-					placeholder="De quoi voulez vous discuter ?"
+					placeholder="Quel est le sujet ? 🙃"
 				/>
 				<label>Tags</label>
 				<input
@@ -34,23 +34,25 @@
 					v-model="c.label"
 					required
 					type="text"
-					placeholder="Quels sont les concepts abordés ?"
+					placeholder="Quels sont les labels ? 😮"
 				/>
-				<button>Modifier la conversation</button>
-				<button
-					type="button"
-					@click="annulerEditer"
-					class="button button-clear"
-				>
-					Annuler
-				</button>
+				<div class="boutonsModifierConversation">
+					<button>Modifier la conversation</button>
+					<button
+						type="button"
+						@click="annulerEditer"
+						class="button button-clear"
+					>
+						Annuler
+					</button>
+				</div>
 			</fieldset>
 		</form>
 		<template v-else>
 			<h1>{{ c.topic }}</h1>
 			<h3>Labels : {{ c.label }}</h3>
 		</template>
-		<div class="loading" v-if="messages===false">
+		<div class="loading" v-if="messages === false">
 			Chargement des messages, veuillez patienter... Un café en attendant ? ☕
 		</div>
 		<div v-else class="messages">
@@ -102,11 +104,20 @@ export default {
 	},
 	methods: {
 		effacerConversation() {
-			if(confirm('Voulez-vous vraiment supprimer cette conversation ?')); {
-				api.delete('channels/'+this.c.id).then(() => {
-					this.$bus.$emit('charger-conversations')
-					this.$router.push('/');
-				})
+			if (
+				confirm(
+					"Voulez-vous vraiment supprimer cette conversation ? Cette action est irréversible. 🤐"
+				)
+			) {
+				api
+					.delete("channels/" + this.c.id)
+					.then((response) => {
+						this.$bus.$emit("charger-conversations");
+						this.$router.push("/");
+					})
+					.catch((error) => {
+						console.log(error.response.data);
+					});
 			}
 		},
 		clonerConversation() {
@@ -131,11 +142,11 @@ export default {
 			this.clonerConversation();
 			setTimeout(() => this.$refs["topic"].focus(), 500);
 		},
-		chargerMessages(vider=false) {
-			if(vider) { 
+		chargerMessages(vider = false) {
+			if (vider) {
 				this.messages = false;
 			}
-			
+
 			api.get("channels/" + this.c.id + "/posts").then((response) => {
 				let messages = response.data.reverse();
 				setTimeout(() => (this.messages = messages), 1000);
@@ -159,6 +170,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.boutonsModifierConversation {
+	text-align: center;
+}
+
 .loading {
 	text-align: center;
 }
@@ -166,12 +181,10 @@ h3 {
 	text-align: center;
 }
 .actions {
-	position: absolute;
-	right: 0;
-	top: -7%;
+	text-align: right;
 }
 .modifierConversation {
-	margin-top: 5vh;
+	// margin-top: 5vh;
 	margin-left: 1em;
 	margin-right: 1em;
 }
